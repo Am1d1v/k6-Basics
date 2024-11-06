@@ -32,7 +32,7 @@ export const options = {
 
 // Wrong URL adress. 404 error
 export default function(){
-    http.get('https://test.k6');
+    http.get('https://test.k6.io');
     sleep(1);
     http.get('https://test.k6.io/contact.php');
     sleep(2);
