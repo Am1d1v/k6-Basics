@@ -19,11 +19,22 @@ export const options = {
 
 
 // Negative Cases
-// Wrong URL adress
+
+// Page doesn't exist
+// export default function(){
+//     http.get('https://test.k6.local');
+//     sleep(1);
+//     http.get('https://test.k6.io/contacts.php');
+//     sleep(2);
+//     http.get('https://test.k6.io/news.php');
+//     sleep(3);
+// };
+
+// Wrong URL adress. 404 error
 export default function(){
-    http.get('https://test.k6.local');
+    http.get('https://test.k6');
     sleep(1);
-    http.get('https://test.k6.io/contacts.php');
+    http.get('https://test.k6.io/contact.php');
     sleep(2);
     http.get('https://test.k6.io/news.php');
     sleep(3);
