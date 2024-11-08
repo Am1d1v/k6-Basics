@@ -14,7 +14,8 @@ export const options = {
         http_reqs: ['count > 10'],
         http_reqs: ['rate > 300'],
         vus: ['value > 15'],
-        checks: ['rate > 0.95'] 
+        checks: ['rate > 0.95'],
+        custom_counter: ['count > 60']
     }
 };
 
@@ -24,7 +25,6 @@ let myCounter = new Counter('custom_counter');
 // Positive case
 export default () => {
     const res = http.get('https://test.k6.io' + (exec.scenario.iterationInTest >= 90 ? 'foo' : ''));
-    console.log();
 
     check(res, {
         'response status code is 200': (response) => response.status === 200,
