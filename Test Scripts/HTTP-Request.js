@@ -12,13 +12,14 @@ export const options = {
         http_req_failed: ['rate <= 0.01'],
         http_reqs: ['count > 10'],
         http_reqs: ['rate > 300'],
-        vus: ['value > 15'] 
+        vus: ['value > 15'],
+        checks: ['rate > 0.95'] 
     }
 }
 
 // Positive case
 export default () => {
-    const res = http.get('https://test.k6.io' + (exec.scenario.iterationInTest >= 30 ? 'foo' : ''));
+    const res = http.get('https://test.k6.io' + (exec.scenario.iterationInTest >= 90 ? 'foo' : ''));
     console.log();
 
     check(res, {
