@@ -1,6 +1,7 @@
 import http from 'k6/http';
 import {check, sleep} from 'k6'
 import exec from 'k6/execution'
+import {Counter} from 'k6/metrics'
 
 
 export const options = {
@@ -15,7 +16,10 @@ export const options = {
         vus: ['value > 15'],
         checks: ['rate > 0.95'] 
     }
-}
+};
+
+// Custom counter metric
+let myCounter = new Counter('custom_counter');
 
 // Positive case
 export default () => {
@@ -26,6 +30,8 @@ export default () => {
         'response status code is 200': (response) => response.status === 200,
         'page is start page': (response) => response.body.includes('Collection of simple web-pages suitable for load testing.')
     });
+
+    myCounter.add(1)
 
     sleep(2);
 };
