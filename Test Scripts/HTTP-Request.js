@@ -1,5 +1,6 @@
 import http from 'k6/http';
 import {check, sleep} from 'k6'
+import exec from 'k6/execution'
 
 
 export const options = {
@@ -17,14 +18,15 @@ export const options = {
 
 // Positive case
 export default () => {
-    const res = http.get('https://test.k6.io');
+    const res = http.get('https://test.k6.io' + (exec.scenario.iterationInTest >= 30 ? 'foo' : ''));
+    console.log();
 
     check(res, {
         'response status code is 200': (response) => response.status === 200,
         'page is start page': (response) => response.body.includes('Collection of simple web-pages suitable for load testing.')
     });
 
-    //sleep(1);
+    sleep(2);
 };
 
 
