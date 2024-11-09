@@ -1,7 +1,7 @@
 import http from 'k6/http';
 import {check, sleep} from 'k6'
 import exec from 'k6/execution'
-import {Counter} from 'k6/metrics'
+import {Counter, Trend} from 'k6/metrics'
 
 
 export const options = {
@@ -22,18 +22,23 @@ export const options = {
 // Custom counter metric
 let myCounter = new Counter('custom_counter');
 
+// News Page response trend metric
+let newsPageResponseTrend = new Trend('news_page_response_time');
+
 // Positive case
 export default () => {
-    const res = http.get('https://test.k6.io' + (exec.scenario.iterationInTest >= 90 ? 'foo' : ''));
+    let res = http.get('https://test.k6.io' + (exec.scenario.iterationInTest >= 90 ? 'foo' : ''));
 
     check(res, {
         'response status code is 200': (response) => response.status === 200,
         'page is start page': (response) => response.body.includes('Collection of simple web-pages suitable for load testing.')
     });
-
-    myCounter.add(1)
-
+    myCounter.add(1);
     sleep(2);
+
+    // News Page response
+    res = ('https://test.k6.io/news.php');
+    newsPageResponseTrend.add()
 };
 
 
