@@ -1,8 +1,9 @@
 import http from 'k6/http';
 
-const options = {
+export const options = {
     thresholds: {
-        http_req_duration: ['p(95) < 120']
+        http_req_duration: ['p(95) < 120'],
+        'http_req_duration{status:200}': ['p(95) < 600']
     }
 };
 
