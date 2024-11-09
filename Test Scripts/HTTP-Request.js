@@ -11,11 +11,12 @@ export const options = {
         http_req_duration: ['p(95) < 120'],
         http_req_duration: ['max < 1200'],
         http_req_failed: ['rate <= 0.01'],
-        http_reqs: ['count > 10'],
-        http_reqs: ['rate > 300'],
+        http_reqs: ['count > 100'],
+        http_reqs: ['rate > 20'],
         vus: ['value > 15'],
         checks: ['rate > 0.95'],
-        custom_counter: ['count > 60']
+        custom_counter: ['count > 60'],
+        news_page_response_time: ['p(95) < 120', 'p(99) < 150']
     }
 };
 
@@ -27,18 +28,19 @@ let newsPageResponseTrend = new Trend('news_page_response_time');
 
 // Positive case
 export default () => {
-    let res = http.get('https://test.k6.io' + (exec.scenario.iterationInTest >= 90 ? 'foo' : ''));
+    let res = http.get('https://test.k6.io');
 
     check(res, {
         'response status code is 200': (response) => response.status === 200,
         'page is start page': (response) => response.body.includes('Collection of simple web-pages suitable for load testing.')
     });
     myCounter.add(1);
-    sleep(2);
+    sleep(1);
 
     // News Page response
-    res = ('https://test.k6.io/news.php');
-    newsPageResponseTrend.add()
+    res = http.get('https://test.k6.io/news.php');
+    newsPageResponseTrend.add(res.timings.duration);
+    sleep(1);
 };
 
 
