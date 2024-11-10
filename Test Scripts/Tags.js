@@ -1,11 +1,14 @@
 import http from 'k6/http';
 
+
 export const options = {
     thresholds: {
         http_req_duration: ['p(95) < 120'],
-        'http_req_duration{status:200}': ['p(95) < 600']
+        'http_req_duration{status:200}': ['p(95) < 600'],
+        'http_req_duration{status:201}': ['p(99) < 2100'],
     }
 };
+
 
 export default () => {
     http.get('https://run.mocky.io/v3/51396d9d-cdae-431d-94a4-ffd70c0a9ee5');
