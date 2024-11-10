@@ -9,6 +9,8 @@ export const options = {
         http_req_duration: ['p(95) < 300'],
         'http_req_duration{page: order}': ['p(95) < 2700'],
         https_errors: ['count === 0'],
+        checks: ['rate > 0.99'],
+        'checks{page: order}': ['rate > 0.99'],
     }
 };
 
@@ -38,9 +40,13 @@ export default () => {
         httpErrors.add(1);
     };
 
-    check(response, {
+    check(response, 
+        {
         'status is 201': response => response.status === 201
-    });
+        }, 
+        {
+            page: 'order'
+        });
 
     sleep(1);
 
