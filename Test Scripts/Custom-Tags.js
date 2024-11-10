@@ -7,7 +7,8 @@ import { check, sleep } from 'k6';
 export const options = {
     thresholds: {
         http_req_duration: ['p(95) < 300'],
-        https_errors: ['count === 0']
+        'http_req_duration{page: order}': ['p(95) < 2700'],
+        https_errors: ['count === 0'],
     }
 };
 
@@ -26,7 +27,11 @@ export default () => {
     });
 
     // Submit order
-    response = http.get('https://run.mocky.io/v3/7ea53017-8f09-4971-8705-f1c85e324f1d?mocky-delay=2000ms');
+    response = http.get('https://run.mocky.io/v3/7ea53017-8f09-4971-8705-f1c85e324f1d?mocky-delay=2000ms', {
+        tags: {
+            page: 'order'
+        }
+    });
 
     // If error occures => increase counter by 1
     if(response.error){
