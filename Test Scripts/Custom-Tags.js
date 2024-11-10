@@ -16,11 +16,27 @@ let httpErrors = new Counter('https_errors');
 export default () => {
     let response = http.get('https://run.mocky.io/v3/51396d9d-cdae-431d-94a4-ffd70c0a9ee5');
     
+    // If error occures => increase counter by 1
     if(response.error){
         httpErrors.add(1);
-    }
+    };
 
     check(response, {
         'status is 200': response => response.status === 200
-    })
+    });
+
+    // Submit order
+    response = http.get('https://run.mocky.io/v3/7ea53017-8f09-4971-8705-f1c85e324f1d?mocky-delay=2000ms');
+
+    // If error occures => increase counter by 1
+    if(response.error){
+        httpErrors.add(1);
+    };
+
+    check(response, {
+        'status is 201': response => response.status === 201
+    });
+
+    sleep(1);
+
 };
