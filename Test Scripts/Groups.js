@@ -19,17 +19,16 @@ export default () => {
             'status is 200': response => response.status === 200
         });
 
-
-        http.get('https://test.k6.io/static/css/site.css');
-        http.get('https://test.k6.io/static/js/prisms.js');
-
+        group('Assets', () => {
+            http.get('https://test.k6.io/static/css/site.css');
+            http.get('https://test.k6.io/static/js/prisms.js');
+        });
+        
     });
 
     // News page group organizing
     group('Main page', () => {
-
         http.get('https://test.k6.io/news.php');
-
     });
     
     sleep(1);
