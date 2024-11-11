@@ -37,11 +37,9 @@ export default () => {
     });
 
     // If error occures => increase counter by 1
-    if(response.error){
+    if(!response.error){
         httpErrors.add(1, {
-            tags: {
-                page: 'order'
-            }
+            page: 'order'
         });
     };
 
