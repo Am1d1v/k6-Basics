@@ -4,7 +4,9 @@ import {sleep, check, group} from 'k6';
 
 export const options = {
     thresholds: {
-
+        'group_duration{group:::Main page}': ['p(95) < 900'],
+        'group_duration{group:::Main page::Assets}': ['p(95) < 300'],
+        'group_duration{group:::News page}': ['p(95) < 600'],
     }
 };
 
@@ -27,7 +29,7 @@ export default () => {
     });
 
     // News page group organizing
-    group('Main page', () => {
+    group('News page', () => {
         http.get('https://test.k6.io/news.php');
     });
     
