@@ -9,14 +9,21 @@ export const options = {
 
 console.log('Init Stage');
 
+export default (data) => {
+    console.log('VU Stage');
+    sleep(1);
+    console.log(data);
+};
+
 export function setup(){
     console.log('Setup Stage');
+    sleep(10);
+    const data = {value: 'somevalue'};
+
+    return data;
 };
 
-export default () => {
-    console.log('VU Stage');
-};
-
-export function teardown(){
+export function teardown(data){
     console.log('Teardown stage');
+    console.log(data.value += ' teardown');
 }
