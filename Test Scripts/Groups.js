@@ -1,5 +1,5 @@
 import http from 'k6/http';
-import {sleep, check} from 'k6';
+import {sleep, check, group} from 'k6';
 
 
 export const options = {
@@ -9,11 +9,28 @@ export const options = {
 };
 
 export default () => {
-    let res = http.get('https://test.k6.io');
 
-    check(res, {
-        'ststus is 200': response => response.status === 200
-    })
+    // Main page group organizing
+    group('Main page', () => {
 
+        let res = http.get('https://test.k6.io');
+
+        check(res, {
+            'status is 200': response => response.status === 200
+        });
+
+
+        http.get('https://test.k6.io/static/css/site.css');
+        http.get('https://test.k6.io/static/js/prisms.js');
+
+    });
+
+    // News page group organizing
+    group('Main page', () => {
+
+        http.get('https://test.k6.io/news.php');
+
+    });
+    
     sleep(1);
 };
