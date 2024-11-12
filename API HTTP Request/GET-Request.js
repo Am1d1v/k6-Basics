@@ -13,6 +13,6 @@ export default () => {
 
     check(res, {
         'status is 200': response => response.status === 200,
-        'Name is Bert': response => response.body.includes('Bert')
+        'Name is Bert': response => response.json().name === 'Bert'
     });
 };
