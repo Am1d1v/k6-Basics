@@ -9,7 +9,9 @@ export const options = {
 export default () => {
     let res = http.get('https://test-api.k6.io/public/crocodiles/');
 
-    res = http.get('https://test-api.k6.io/public/crocodiles/1');
+    const crocodileID = 1;
+
+    res = http.get(`https://test-api.k6.io/public/crocodiles/${crocodileID}`);
 
     check(res, {
         'status is 200': response => response.status === 200,
