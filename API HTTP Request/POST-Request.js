@@ -10,7 +10,7 @@ const body = JSON.stringify(
     {
         username: 'k6TestName1',
         password: 'k6TestPassword1'
-    },
+    }
 )
 
 const params = {
@@ -19,6 +19,17 @@ const params = {
     }
 }
 
-export default () => {
+// User register
+/* export default () => {
     http.post('https://test-api.k6.io/user/register/', body, params);
+}; */
+
+// Token login
+export default () => {
+    const res = http.post('https://test-api.k6.io/auth/token/login/', body, params);
+
+    const parsed = JSON.parse(res.body)
+
+    // Access token
+    const accessToken = parsed.access;
 };
