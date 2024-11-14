@@ -32,4 +32,12 @@ export default () => {
 
     // Access token
     const accessToken = parsed.access;
+
+    http.get(
+        'https://test-api.k6.io/my/crocodiles/', 
+        {
+            headers: {
+                'Authorization': `Bearer ${accessToken}`
+            }
+        })
 };
