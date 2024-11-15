@@ -28,7 +28,7 @@ const params = {
 export default () => {
     const res = http.post('https://test-api.k6.io/auth/token/login/', body, params);
 
-    const parsed = JSON.parse(res.body)
+    let parsed = JSON.parse(res.body)
 
     // Access token
     const accessToken = parsed.access;
@@ -54,9 +54,30 @@ export default () => {
             }
         }); */
 
-    http.post(
+   /*  http.post(
         'https://test-api.k6.io/my/crocodiles/',
         JSON.stringify(crocodileData),
         paramsWithToken
-        )    
+        ); */
+        
+    const arrayOfCreatedItem = http.get(`https://test-api.k6.io/my/crocodiles/`, 
+        {headers: {
+            'Authorization': `Bearer ${accessToken}`
+        }}
+        );
+
+    const lastCreatedItem = JSON.parse(arrayOfCreatedItem.body).pop();    
+
+    const getLastItem = http.get(`https://test-api.k6.io/my/crocodiles/${lastCreatedItem.id}`, 
+        {headers: {
+            'Authorization': `Bearer ${accessToken}`
+        }}
+        );
+
+    console.log(lastCreatedItem.id);    
+
+    check(getLastItem, {
+        'Status is 200': res => res.status === 200,
+        'correct id"': res => res.json().id == lastCreatedItem.id
+    })   
 };
