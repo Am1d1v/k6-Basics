@@ -46,7 +46,7 @@ export default () => {
         }
     }
 
-/*     http.get(
+    /*  http.get(
         'https://test-api.k6.io/my/crocodiles/', 
         {
             headers: {
@@ -68,16 +68,25 @@ export default () => {
 
     const lastCreatedItem = JSON.parse(arrayOfCreatedItem.body).pop();    
 
-    const getLastItem = http.get(`https://test-api.k6.io/my/crocodiles/${lastCreatedItem.id}`, 
+    const getLastItem = http.get(`https://test-api.k6.io/my/crocodiles/${lastCreatedItem.id}/`, 
         {headers: {
             'Authorization': `Bearer ${accessToken}`
         }}
-        );
-
-    console.log(lastCreatedItem.id);    
+        );  
 
     check(getLastItem, {
         'Status is 200': res => res.status === 200,
         'correct id"': res => res.json().id == lastCreatedItem.id
-    })   
+    });
+
+    // Update last created item
+     http.put(
+        `https://test-api.k6.io/my/crocodiles/${lastCreatedItem.id}/`,
+        JSON.stringify({
+            name: "Crocodile Updated",
+            sex: "M",
+            date_of_birth: '1998-03-03'
+        }),
+        paramsWithToken
+        );
 };
