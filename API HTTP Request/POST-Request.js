@@ -33,11 +33,30 @@ export default () => {
     // Access token
     const accessToken = parsed.access;
 
-    http.get(
+    const crocodileData = {
+        name: "New Crocodile",
+        sex: 'M',
+        date_of_birth: '1998-01-01'
+    }
+
+    const paramsWithToken = {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${accessToken}`
+        }
+    }
+
+/*     http.get(
         'https://test-api.k6.io/my/crocodiles/', 
         {
             headers: {
                 'Authorization': `Bearer ${accessToken}`
             }
-        })
+        }); */
+
+    http.post(
+        'https://test-api.k6.io/my/crocodiles/',
+        JSON.stringify(crocodileData),
+        paramsWithToken
+        )    
 };
