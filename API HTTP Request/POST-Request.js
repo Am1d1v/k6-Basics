@@ -79,13 +79,23 @@ export default () => {
         'correct id"': res => res.json().id == lastCreatedItem.id
     });
 
-    // Update last created item
-     http.put(
+    // Update last created item PUT request
+    /*  http.put(
         `https://test-api.k6.io/my/crocodiles/${lastCreatedItem.id}/`,
         JSON.stringify({
             name: "Crocodile Updated",
             sex: "M",
             date_of_birth: '1998-03-03'
+        }),
+        paramsWithToken
+        ); */
+
+    // Update last created item PATCH request
+     http.patch(
+        `https://test-api.k6.io/my/crocodiles/${lastCreatedItem.id}/`,
+        JSON.stringify({
+            name: "Crocodile Updated PATCH",
+            date_of_birth: '1000-03-03'
         }),
         paramsWithToken
         );
