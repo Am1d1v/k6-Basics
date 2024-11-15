@@ -91,7 +91,17 @@ export default () => {
         ); */
 
     // Update last created item PATCH request
-     http.patch(
+    /*  http.patch(
+        `https://test-api.k6.io/my/crocodiles/${lastCreatedItem.id}/`,
+        JSON.stringify({
+            name: "Crocodile Updated PATCH",
+            date_of_birth: '1000-03-03'
+        }),
+        paramsWithToken
+        ); */
+
+    // Delete last created item DELETE request
+     http.del(
         `https://test-api.k6.io/my/crocodiles/${lastCreatedItem.id}/`,
         JSON.stringify({
             name: "Crocodile Updated PATCH",
