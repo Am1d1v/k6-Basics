@@ -4,7 +4,10 @@ import { sleep } from 'k6';
 
 export const options = {
     vus: 10,
-    duration: '5s'
+    duration: '30s',
+    cloud: {
+        projectID: 3724670
+    }
 };
 
 export default () => {
